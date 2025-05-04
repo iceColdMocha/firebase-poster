@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { db } from "../firebaseConfig";
-import { collection, setDoc, serverTimestamp } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
 export default function Home() {
   const [text, setText] = useState("");
@@ -9,7 +9,7 @@ export default function Home() {
     if (!text.trim()) return;
 
     try {
-      await setDoc(collection(db, "books"), {
+      await addDoc(collection(db, "books"), {
         text,
         createdAt: serverTimestamp(),
       });
@@ -26,7 +26,7 @@ export default function Home() {
       <input
         type="text"
         value={text}
-        placeholder="Type something for a book..."
+        placeholder="Type something for a book now..."
         onChange={(e) => setText(e.target.value)}
         style={{ padding: "0.5rem", width: "300px", marginRight: "1rem" }}
       />
