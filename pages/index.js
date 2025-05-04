@@ -9,7 +9,7 @@ export default function Home() {
     if (!text.trim()) return;
 
     try {
-      await addDoc(collection(db, "posts"), {
+      await setDoc(collection(db, "books"), {
         text,
         createdAt: serverTimestamp(),
       });
