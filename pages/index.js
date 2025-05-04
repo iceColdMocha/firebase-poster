@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { db } from "../firebaseConfig";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { collection, setDoc, serverTimestamp } from "firebase/firestore";
 
 export default function Home() {
   const [text, setText] = useState("");
@@ -26,7 +26,7 @@ export default function Home() {
       <input
         type="text"
         value={text}
-        placeholder="Type something..."
+        placeholder="Type something for a book..."
         onChange={(e) => setText(e.target.value)}
         style={{ padding: "0.5rem", width: "300px", marginRight: "1rem" }}
       />
