@@ -22,7 +22,7 @@ export default function Home() {
 
   return (
     <main style={{ padding: "2rem" }}>
-      <h1>Post Something</h1>
+      <h1>Add a new Book</h1>
       <input
         type="text"
         value={text}
