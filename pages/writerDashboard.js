@@ -24,8 +24,7 @@ export default function WriterDashboard() {
       return (
         <div className="container">
           <div className="header">
-            <h1 className="title">All Stories</h1>
-            <button onClick={() => router.push('/writer/add')}>
+            <button onClick={() => router.push('/addBook')}>
               ➕ Add New Book
             </button>
           </div>
