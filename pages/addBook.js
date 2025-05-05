@@ -1,34 +1,22 @@
 import { useState } from "react";
-import { db, storage } from "../firebaseConfig";
+import { db } from "../firebaseConfig";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 export default function AddBook() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [tag, setTag] = useState("");
-  const [imageFile, setImageFile] = useState(null);
-  const [isUploading, setIsUploading] = useState(false);
 
   const handlePost = async () => {
     if (!title.trim()) return;
 
     try {
-      setIsUploading(true);
-      let coverImage = "";
-
-      if (imageFile) {
-        const imageRef = ref(storage, `covers/${Date.now()}-${imageFile.name}`);
-        const snapshot = await uploadBytes(imageRef, imageFile);
-        coverImage = await getDownloadURL(snapshot.ref);
-      }
-
       await addDoc(collection(db, "stories"), {
         title,
         description,
         tags: tag ? [tag] : [],
         chapters: [],
-        coverImage,
+        coverImage: "", // kept for future use
         published: false,
         createdAt: serverTimestamp(),
       });
@@ -36,13 +24,10 @@ export default function AddBook() {
       setTitle("");
       setDescription("");
       setTag("");
-      setImageFile(null);
       alert("Book added!");
     } catch (error) {
       console.error("Error posting:", error);
       alert("Something went wrong.");
-    } finally {
-      setIsUploading(false);
     }
   };
 
@@ -79,19 +64,11 @@ export default function AddBook() {
         <option value="fantasy">Fantasy</option>
       </select>
 
-      <input
-        type="file"
-        accept="image/*"
-        onChange={(e) => setImageFile(e.target.files?.[0] || null)}
-        style={{ marginBottom: "1rem" }}
-      />
-
       <button
         onClick={handlePost}
         style={{ padding: "0.5rem 1rem" }}
-        disabled={isUploading}
       >
-        {isUploading ? "Uploading..." : "Post"}
+        Post
       </button>
     </main>
   );
