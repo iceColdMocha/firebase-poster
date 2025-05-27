@@ -59,11 +59,12 @@ export default function AddBook() {
   };
 
   const handleImageChange = (e) => {
-    console.log("Selected file:", file);
+    
     const file = e.target.files?.[0];
     if (file) {
       setCoverFile(file);
       setPreviewUrl(URL.createObjectURL(file));
+      console.log("Selected file:", file);
     }
   };
 
