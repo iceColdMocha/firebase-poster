@@ -116,7 +116,8 @@ export default function AddBook() {
       )}
 
       <button
-         onClick={() => {
+        onClick={(e) => {
+          e.preventDefault(); // 🔥 prevent the reload
           console.log("Post button clicked!");
           handlePost();
         }}
