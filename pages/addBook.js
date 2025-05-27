@@ -10,6 +10,7 @@ export default function AddBook() {
   const [tag, setTag] = useState("");
   const [coverFile, setCoverFile] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
+  const [previewUrl, setPreviewUrl] = useState("");
 
   const handlePost = async () => {
     if (!title.trim()) return;
@@ -47,6 +48,15 @@ export default function AddBook() {
       alert("Something went wrong.");
     } finally {
       setIsUploading(false);
+    }
+    
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setCoverFile(file);
+      setPreviewUrl(URL.createObjectURL(file));
     }
   };
 
@@ -86,7 +96,7 @@ export default function AddBook() {
       <input
         type="file"
         accept="image/*"
-        onChange={(e) => setCoverFile(e.target.files[0])}
+        onChange={handleImageChange}
         style={{ marginBottom: "1rem" }}
       />
 
