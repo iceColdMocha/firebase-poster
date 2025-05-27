@@ -5,6 +5,7 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { v4 as uuidv4 } from "uuid";
 
 export default function AddBook() {
+  console.log("AddBook mounted")
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [tag, setTag] = useState("");
@@ -115,7 +116,10 @@ export default function AddBook() {
       )}
 
       <button
-        onClick={handlePost}
+         onClick={() => {
+          console.log("Post button clicked!");
+          handlePost();
+        }}
         disabled={isUploading}
         style={{ padding: "0.5rem 1rem" }}
       >
