@@ -13,6 +13,8 @@ export default function AddBook() {
   const [previewUrl, setPreviewUrl] = useState("");
 
   const handlePost = async () => {
+    console.log("Uploading file:", coverFile); // already added
+    console.log("About to upload...");         // before uploadBytes()
     if (!title.trim()) return;
 
     setIsUploading(true);
@@ -20,11 +22,15 @@ export default function AddBook() {
     try {
       let coverImageUrl = "";
 
+      console.log("Uploading file:", coverFile);
+
       if (coverFile) {
         const uniqueFileName = `covers/${uuidv4()}`;
         const fileRef = ref(storage, uniqueFileName);
-        await uploadBytes(fileRef, coverFile);
-        coverImageUrl = await getDownloadURL(fileRef);
+        const snapshot = await uploadBytes(fileRef, coverFile);
+        console.log("Upload successful, getting download URL...");
+        coverImageUrl = await getDownloadURL(snapshot.ref);
+        console.log("Image URL:", coverImageUrl);
       }
 
       await addDoc(collection(db, "stories"), {
@@ -53,6 +59,7 @@ export default function AddBook() {
   };
 
   const handleImageChange = (e) => {
+    console.log("Selected file:", file);
     const file = e.target.files?.[0];
     if (file) {
       setCoverFile(file);
