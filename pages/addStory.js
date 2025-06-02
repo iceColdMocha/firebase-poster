@@ -3,6 +3,7 @@ import { db, storage } from "../firebaseConfig";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { v4 as uuidv4 } from "uuid";
+import { useRouter } from "next/router";
 
 export default function AddBook() {
   console.log("AddBook mounted")
@@ -12,6 +13,8 @@ export default function AddBook() {
   const [coverFile, setCoverFile] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
   const [previewUrl, setPreviewUrl] = useState("");
+  const router = useRouter();
+
 
   const handlePost = async () => {
     console.log("Uploading file:", coverFile); // already added
@@ -34,7 +37,7 @@ export default function AddBook() {
         console.log("Image URL:", coverImageUrl);
       }
 
-      await addDoc(collection(db, "stories"), {
+      const newDocRef = await addDoc(collection(db, "stories"), {
         title,
         description,
         tags: tag ? [tag] : [],
@@ -44,12 +47,8 @@ export default function AddBook() {
         createdAt: serverTimestamp(),
       });
 
-      // Reset
-      setTitle("");
-      setDescription("");
-      setTag("");
-      setCoverFile(null);
-      alert("Book added!");
+      router.push(`/writerDashboard/${newDocRef.id}`);
+
     } catch (error) {
       console.error("Error posting:", error);
       alert("Something went wrong.");

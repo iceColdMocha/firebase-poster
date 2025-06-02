@@ -24,14 +24,14 @@ export default function WriterDashboard() {
     <div style={styles.container}>
       <div style={styles.header}>
         <h1 style={styles.title}>📚 Your Books</h1>
-        <button style={styles.addButton} onClick={() => router.push("/addBook")}>
+        <button style={styles.addButton} onClick={() => router.push("/addStory")}>
           ➕ Add New Book
         </button>
       </div>
 
       <div style={styles.grid}>
         {stories.map((item) => (
-          <div key={item.id} style={styles.card} onClick={() => router.push(`/story/${item.id}`)}>
+          <div key={item.id} style={styles.card} onClick={() => router.push(`/writerDashboard/${item.id}`)}>
             <img
               src={item.coverImage || "/placeholder-cover.png"}
               alt={`${item.title} cover`}
